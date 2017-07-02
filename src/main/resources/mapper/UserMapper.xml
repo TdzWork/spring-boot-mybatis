@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdzmxjz.dao.UserMapper" >
+    <resultMap id="BaseResultMap" type="com.tdzmxjz.entity.User" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="user_pass_word" property="userPassWord" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+        <trim prefix="where" prefixOverrides="and|or" >
+            <if test="condition.userName != null" >
+                and user_name = #{condition.userName}
+            </if>
+            <if test="condition.userPassWord != null" >
+                and user_pass_word = #{condition.userPassWord}
+            </if>
+        </trim>
+    </sql>
+    <sql id="Base_Column_List" >
+#          user_name, user_pass_word
+    </sql>
+    <select id="selectByParams" resultMap="BaseResultMap" parameterType="com.tdzmxjz.entity.Criteria" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from user
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where id = #{id}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from user
+        where id = #{id}
+    </delete>
+    <delete id="deleteByParams" parameterType="com.tdzmxjz.entity.Criteria" >
+        delete from user
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.tdzmxjz.entity.User">
+        insert into user (id, user_name, user_pass_word)
+        values (#{id}, #{userName}, #{userPassWord})
+    </insert>
+    <insert id="insertSelective" parameterType="com.tdzmxjz.entity.User" >
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="userName != null" >
+                user_name,
+            </if>
+            <if test="userPassWord != null" >
+                user_pass_word,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="userName != null" >
+                #{userName},
+            </if>
+            <if test="userPassWord != null" >
+                #{userPassWord},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="countByParams" parameterType="com.tdzmxjz.entity.Criteria" resultType="java.lang.Integer" >
+        select count(*) from user
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+
+    <update id="updateByParamsSelective" parameterType="map" >
+        update user
+        <set >
+            <if test="record.id != null" >
+                id = #{record.id},
+            </if>
+            <if test="record.userName != null" >
+                user_name = #{record.userName},
+            </if>
+            <if test="record.userPassWord != null" >
+                user_pass_word = #{record.userPassWord},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByParams" parameterType="map" >
+        update user
+        set id = #{record.id},
+        user_name = #{record.userName},
+        user_pass_word = #{record.userPassWord}
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tdzmxjz.entity.User" >
+        update user
+        <set >
+            <if test="userName != null" >
+                user_name = #{userName},
+            </if>
+            <if test="userPassWord != null" >
+                user_pass_word = #{userPassWord},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tdzmxjz.entity.User" >
+        update user
+        set user_name = #{userName},
+        user_pass_word = #{userPassWord}
+        where id = #{id}
+    </update>
+</mapper>
